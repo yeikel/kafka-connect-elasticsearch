@@ -18,4 +18,4 @@ updates:
     labels:
       - "dependencies"
       - "java"
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 100
