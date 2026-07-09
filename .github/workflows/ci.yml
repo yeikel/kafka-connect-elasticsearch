@@ -108,4 +108,5 @@ jobs:
       - name: Upload assets to GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
         run: gh release upload "${{ github.event.release.tag_name }}" release-assets/upload/* --clobber
