@@ -41,7 +41,7 @@ jobs:
         env:
           ELASTICSEARCH_VERSION: ${{ matrix.es-version }}
 
-  build:
+  package-build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -79,7 +79,7 @@ jobs:
 
   publish-release:
     if: github.event_name == 'release'
-    needs: build
+    needs: package-build
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -102,6 +102,14 @@ jobs:
           mkdir -p release-assets/upload
           standalone_jar="$(find release-assets/standalone -maxdepth 1 -type f -name '*-standalone.jar' -print -quit)"
           package_dir="$(find release-assets/distribution -maxdepth 1 -mindepth 1 -type d -name '*-package' -print -quit)"
+          if [ -z "$standalone_jar" ]; then
+            echo "Standalone release artifact not found" >&2
+            exit 1
+          fi
+          if [ -z "$package_dir" ]; then
+            echo "Distribution release artifact not found" >&2
+            exit 1
+          fi
           cp "$standalone_jar" release-assets/upload/
           tar -C "$(dirname "$package_dir")" -czf "release-assets/upload/$(basename "$package_dir").tar.gz" "$(basename "$package_dir")"
 
