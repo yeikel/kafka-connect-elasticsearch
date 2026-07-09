@@ -1,12 +1,7 @@
 # Contributing
 
-In order for us to consider merging a contribution, you will need to sign our
-**C**ontributor **L**icense **A**greement.
-
-> The purpose of a CLA is to ensure that the guardian of a project's outputs has the necessary ownership or grants of rights over all contributions to allow them to distribute under the chosen licence.
-> [Wikipedia](http://en.wikipedia.org/wiki/Contributor_License_Agreement)
-
-You can read and sign our full Contributor License Agreement [here](http://clabot.confluent.io/cla).
+This is a community fork of [confluentinc/kafka-connect-elasticsearch](https://github.com/confluentinc/kafka-connect-elasticsearch).
+Contributions are welcome! There is no CLA requirement for this fork.
 
 ## Reporting Bugs and Issues
 
@@ -78,7 +73,7 @@ If your code changes are essentially bug fixes that make sense to backport to ex
 
 ## Github Workflow
 
-1. Fork the connector repository into your GitHub account: https://github.com/confluentinc/kafka-connect-elasticsearch/fork
+1. Fork the connector repository into your GitHub account: https://github.com/yeikel/kafka-connect-elasticsearch/fork
 
 2. Clone your fork of the GitHub repository, replacing `<username>` with your GitHub username.
 
@@ -97,7 +92,7 @@ If your code changes are essentially bug fixes that make sense to backport to ex
 3. Add a remote to keep up with upstream changes.
 
     ```bash
-    git remote add upstream https://github.com/confluentinc/kafka-connect-elasticsearch.git
+    git remote add upstream https://github.com/yeikel/kafka-connect-elasticsearch.git
     ```
 
     If you already have a copy, fetch upstream changes.
@@ -154,7 +149,7 @@ If your code changes are essentially bug fixes that make sense to backport to ex
 
     If you recently pushed your changes GitHub will automatically pop up a `Compare & pull request`
     button for any branches you recently pushed to. If you click that button it will automatically
-    offer you to submit your pull-request to the `confluentinc` connector repository.
+    offer you to submit your pull-request to the `yeikel` connector repository.
 
     - Give your pull-request a meaningful title as described [above](#titles-and-changelogs).
     - In the description, explain your changes and the problem they are solving.
@@ -181,8 +176,7 @@ If your code changes are essentially bug fixes that make sense to backport to ex
 ## Useful Resources for Developers
 
 1. Connector Developer Guide: https://docs.confluent.io/platform/current/connect/devguide.html
-2. A Guide to the Confluent Verified Integrations Program: https://www.confluent.io/blog/guide-to-confluent-verified-integrations-program/
-3. Verification Guide for Confluent Platform Integrations: https://cdn.confluent.io/wp-content/uploads/Verification-Guide-Confluent-Platform-Connectors-Integrations.pdf
-4. From Zero to Hero with Kafka Connect: https://www.confluent.io/kafka-summit-lon19/from-zero-to-hero-with-kafka-connect/
-5. 4 Steps to Creating Apache Kafka Connectors with the Kafka Connect API: https://www.confluent.io/blog/create-dynamic-kafka-connect-source-connectors/
-6. How to Write a Connector for Kafka Connect – Deep Dive into Configuration Handling: https://www.confluent.io/blog/write-a-kafka-connect-connector-with-configuration-handling/
+2. From Zero to Hero with Kafka Connect: https://www.confluent.io/kafka-summit-lon19/from-zero-to-hero-with-kafka-connect/
+3. 4 Steps to Creating Apache Kafka Connectors with the Kafka Connect API: https://www.confluent.io/blog/create-dynamic-kafka-connect-source-connectors/
+4. How to Write a Connector for Kafka Connect – Deep Dive into Configuration Handling: https://www.confluent.io/blog/write-a-kafka-connect-connector-with-configuration-handling/
+5. Upstream project: https://github.com/confluentinc/kafka-connect-elasticsearch
