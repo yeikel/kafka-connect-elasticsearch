@@ -5,9 +5,16 @@ on:
     branches:
       - master
   pull_request:
+  release:
+    types:
+      - published
+
+permissions:
+  contents: read
 
 jobs:
   test:
+    if: github.event_name != 'release'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -34,7 +41,8 @@ jobs:
         env:
           ELASTICSEARCH_VERSION: ${{ matrix.es-version }}
 
-  build:
+  package-build:
+    if: github.event_name == 'release' || github.event_name == 'pull_request' || github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -54,7 +62,8 @@ jobs:
         if: always()
         with:
           name: standalone-jar
-          path: target/kafka-connect-elasticsearch-15.2.0-SNAPSHOT-standalone.jar
+          path: target/*-standalone.jar
+          if-no-files-found: error
           retention-days: 90
 
       - name: Build distribution
@@ -65,5 +74,48 @@ jobs:
         if: always()
         with:
           name: distribution-package
-          path: target/kafka-connect-elasticsearch-15.2.0-SNAPSHOT-package
+          path: target/*-package
+          if-no-files-found: error
           retention-days: 90
+
+  publish-release:
+    if: github.event_name == 'release'
+    needs: package-build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download standalone artifact
+        uses: actions/download-artifact@v5
+        with:
+          name: standalone-jar
+          path: release-assets/standalone
+
+      - name: Download distribution artifact
+        uses: actions/download-artifact@v5
+        with:
+          name: distribution-package
+          path: release-assets/distribution
+
+      - name: Prepare release assets
+        run: |
+          set -euo pipefail
+          mkdir -p release-assets/upload
+          standalone_jar="$(find release-assets/standalone -maxdepth 1 -type f -name '*-standalone.jar' -print -quit)"
+          package_dir="$(find release-assets/distribution -maxdepth 1 -mindepth 1 -type d -name '*-package' -print -quit)"
+          if [ -z "$standalone_jar" ]; then
+            echo "Error: Standalone JAR artifact matching pattern *-standalone.jar not found in release-assets/standalone" >&2
+            exit 1
+          fi
+          if [ -z "$package_dir" ]; then
+            echo "Error: Distribution package directory matching pattern *-package not found in release-assets/distribution" >&2
+            exit 1
+          fi
+          cp "$standalone_jar" release-assets/upload/
+          tar -C "$(dirname "$package_dir")" -czf "release-assets/upload/$(basename "$package_dir").tar.gz" "$(basename "$package_dir")"
+
+      - name: Upload assets to GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: gh release upload "${{ github.event.release.tag_name }}" release-assets/upload/* --clobber
