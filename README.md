@@ -1,10 +1,18 @@
 # Kafka Connect Elasticsearch Connector
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fconfluentinc%2Fkafka-connect-elasticsearch.svg?type=shield)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fconfluentinc%2Fkafka-connect-elasticsearch?ref=badge_shield)
 
-Changelog for this connector can be found [here](https://docs.confluent.io/kafka-connect-elasticsearch/current/changelog.html).
+> **This is a community fork of [confluentinc/kafka-connect-elasticsearch](https://github.com/confluentinc/kafka-connect-elasticsearch).**
+>
+> The main difference from the upstream project is **Elasticsearch 9 support**. The upstream connector targets older Elasticsearch versions, while this fork upgrades the Elasticsearch Java client and related dependencies to be compatible with Elasticsearch 9.x.
 
 kafka-connect-elasticsearch is a [Kafka Connector](http://kafka.apache.org/documentation.html#connect)
 for copying data between Kafka and Elasticsearch.
+
+## Key differences from upstream
+
+| Feature | This fork | Upstream (confluentinc) |
+|---|---|---|
+| Elasticsearch compatibility | 9.x (also compatible with 8.x) | 7.x / 8.x |
+| Elasticsearch Java client | 8.19.x | older versions |
 
 # Development
 
@@ -37,8 +45,9 @@ curl -u elastic:elastic -X POST "localhost:9200/_security/user/es_sink_connector
 
 # Contribute
 
-- Source Code: https://github.com/confluentinc/kafka-connect-elasticsearch
-- Issue Tracker: https://github.com/confluentinc/kafka-connect-elasticsearch/issues
+- Source Code: https://github.com/yeikel/kafka-connect-elasticsearch
+- Issue Tracker: https://github.com/yeikel/kafka-connect-elasticsearch/issues
+- Upstream project: https://github.com/confluentinc/kafka-connect-elasticsearch
 - Learn how to work with the connector's source code by reading our [Development and Contribution guidelines](CONTRIBUTING.md).
 
 
@@ -46,5 +55,3 @@ curl -u elastic:elastic -X POST "localhost:9200/_security/user/es_sink_connector
 
 This project is licensed under the [Confluent Community License](LICENSE).
 
-
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fconfluentinc%2Fkafka-connect-elasticsearch.svg?type=large)](https://app.fossa.io/projects/git%2Bhttps%3A%2F%2Fgithub.com%2Fconfluentinc%2Fkafka-connect-elasticsearch?ref=badge_large)
