@@ -42,6 +42,7 @@ jobs:
           ELASTICSEARCH_VERSION: ${{ matrix.es-version }}
 
   package-build:
+    if: github.event_name == 'release' || github.event_name == 'pull_request' || github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -103,11 +104,11 @@ jobs:
           standalone_jar="$(find release-assets/standalone -maxdepth 1 -type f -name '*-standalone.jar' -print -quit)"
           package_dir="$(find release-assets/distribution -maxdepth 1 -mindepth 1 -type d -name '*-package' -print -quit)"
           if [ -z "$standalone_jar" ]; then
-            echo "Standalone release artifact not found" >&2
+            echo "Error: Standalone JAR artifact matching pattern *-standalone.jar not found in release-assets/standalone" >&2
             exit 1
           fi
           if [ -z "$package_dir" ]; then
-            echo "Distribution release artifact not found" >&2
+            echo "Error: Distribution package directory matching pattern *-package not found in release-assets/distribution" >&2
             exit 1
           fi
           cp "$standalone_jar" release-assets/upload/
